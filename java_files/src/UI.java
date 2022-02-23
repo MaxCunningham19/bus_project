@@ -1,7 +1,10 @@
 import java.io.*;
 import java.util.Scanner;
 
+@SuppressWarnings("ThrowablePrintedToSystemOut")
 public class UI {
+
+    public static Scanner sc = new Scanner(System.in);
 
     public static void welcome(){
         System.out.println("\nWelcome to Bus Information Manager\n");
@@ -18,7 +21,6 @@ public class UI {
     }
 
     public static void getActions(){
-        Scanner sc = new Scanner(System.in);
         try {
             boolean exit = false;
             while (!exit) {
@@ -35,19 +37,21 @@ public class UI {
                 } else if(input .equalsIgnoreCase("4")){
                     exit = true;
                     System.out.println("\nThank you for using Bus Information Manager, see you soon.");
+                    sc.close();
                 } else {
                     System.out.println("\nInvalid input please input a single digit between 1 and 4.\n");
                 }
+
             }
         } catch (Exception e){
-            System.err.println("Invalid Input System error 1");
+            System.err.println(e);
         }
-        sc.close();
+
     }
 
     private static boolean isValidStop(String stop){
         return true;
-    }
+    } //TO DO:
 
     private static String getBusStop(String stopADJ){
         Scanner sc = new Scanner(System.in);
@@ -62,18 +66,24 @@ public class UI {
     }
 
     private static String getBusStop(){
-        Scanner sc = new Scanner(System.in);
+
         while(true){
             System.out.print("Input the stop you wish to use : ");
+            String input = sc.nextLine();
+            if(isValidStop(input)){
+                return input;
+            }
+            System.out.println("\n..Invalid Stop..");
         }
     }
 
     private static void printStops(){
         System.out.println("\nPrintStops\n");
-    }
+    } // TO DO
 
     private static void printSPActions(){
         System.out.print("""
+                                
                 Possible Actions:
                  1. List Bus Stops
                  2. Bus Stop
@@ -82,7 +92,6 @@ public class UI {
     }
 
     private static void shortestPath(){
-        Scanner sc = new Scanner(System.in);
         try {
             boolean exit = false;
             while (!exit) {
@@ -98,7 +107,6 @@ public class UI {
                 } else if(input .equalsIgnoreCase("3")){
                     exit = true;
                     System.out.println("\n...Closing Shortest Path Search...\n");
-                    sc.close();
                 } else {
                     System.out.println("\nInvalid input please input a single digit between 1 and 4.\n");
                 }
@@ -107,7 +115,6 @@ public class UI {
         } catch (Exception e){
             System.err.println(e + "Invalid Input System error");
         }
-        sc.close();
 
     }
 
