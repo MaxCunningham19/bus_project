@@ -27,6 +27,9 @@ public class DiGraph<V> {
         if(!edg.containsKey(V2)){
             addVertex(V2);
         }
+        if(edg.get(V1).containsKey(V2)){
+            dist = Math.min(edg.get(V1).get(V2),dist);
+        }
         edg.get(V1).put(V2, dist);
     }
 
