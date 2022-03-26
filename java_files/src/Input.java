@@ -46,53 +46,68 @@ public class Input {
 
     /*
     * this method fills the graph with edges from the two input files transfers and stop_times
-    *
-    *
-    *
     * param:
     *   graph : this is the graph that will be used to calculate the cost of a trip for the first piece of functionality
     *
-    *
+    *return:
+    *   null
     * */
     public void makeCostGraph(DiGraph<Integer> graph){
         try {
+            // set up the file reader for the transfers time
             File file = new File(transfers);
 
             BufferedReader br
                     = new BufferedReader(new FileReader(file));
-
-
+            // read in the column labels
             br.readLine();
+            // initialise the string and cost values
             String st;
             double cost;
             while ((st = br.readLine()) != null){
+
                 String[] arr = st.split(",");
-                cost = 2.0;
-                if(arr[2].equalsIgnoreCase("2")){
+                cost = 2.0; // set the cost to an automatic 2 assuming transport type is 0
+
+                if(arr[2].equalsIgnoreCase("2")){ // if transport type is 2 then calculate and change the cost
                     cost = Double.parseDouble(arr[3]) / 100.0;
                 }
+
+                // get the stop ids
                 int v1 = Integer.parseInt(arr[0]);
                 int v2 = Integer.parseInt(arr[1]);
                 graph.addEdge(v1,v2,cost);
             }
 
+            // set up the file reader for the stop_times file
             file = new File(stop_times);
             br = new BufferedReader(new FileReader(file));
 
+            // read in the column titles and initialise the values
             br.readLine();
-            int lastStop=-1;
-            int nextStop;
-            String tripId="";
+            int lastStop;
+            int curStop;
+            String tripId;
+
+            // read in the first input line
+            st = br.readLine();
+            String[] arr = st.split(",");
+            lastStop = Integer.parseInt(arr[3]);
+            tripId = arr[0];
+
+            //loop through comparing the current line to the last line
             while ((st = br.readLine()) != null){
 
-                String[] arr = st.split(",");
-                nextStop = Integer.parseInt(arr[3]);
-                if(lastStop!=-1 && tripId.equalsIgnoreCase(arr[0]) && isValidTime(arr[1])) {
-                    graph.addEdge(lastStop, nextStop, 1.0);
-                }
-                lastStop = nextStop;
-                tripId = arr[0];
+                arr = st.split(",");
 
+                curStop = Integer.parseInt(arr[3]);
+                // if the stops are part of the same trip and is at a valid time then add the edge to the graph with cost 1
+                if(tripId.equalsIgnoreCase(arr[0]) && isValidTime(arr[1])) {
+                    graph.addEdge(lastStop, curStop, 1.0);
+                }
+                // set the last stop to the current stop and set the tripID to the current one
+                lastStop = curStop;
+                tripId = arr[0];
             }
 
 

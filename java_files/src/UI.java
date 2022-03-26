@@ -4,13 +4,14 @@ import java.util.Scanner;
 @SuppressWarnings("ThrowablePrintedToSystemOut")
 public class UI {
 
-    public static Scanner sc = new Scanner(System.in);
+    public  Scanner sc = new Scanner(System.in);
+    public  Backend bc = new Backend();
 
-    public static void welcome(){
+    public  void welcome(){
         System.out.println("\nWelcome to Bus Information Manager\n");
     }
 
-    public static void printMainActions(){
+    public  void printMainActions(){
         System.out.print("""
                 Possible Actions:
                  1. Find the Shortest Path
@@ -20,7 +21,7 @@ public class UI {
                 Please enter the number of the action you wish to take :\s""");
     }
 
-    public static void getActions(){
+    public  void getActions(){
         try {
             boolean exit = false;
             while (!exit) {
@@ -30,10 +31,8 @@ public class UI {
                     shortestPath();
                 } else if (input .equalsIgnoreCase("2")){
                     busSearch();
-                    System.out.println("\nBusSearch\n");
                 } else if(input .equalsIgnoreCase("3")){
                     arrivalSearch();
-                    System.out.println("\narrivalSearch\n");
                 } else if(input .equalsIgnoreCase("4")){
                     exit = true;
                     System.out.println("\nThank you for using Bus Information Manager, see you soon.");
@@ -49,11 +48,11 @@ public class UI {
 
     }
 
-    private static boolean isValidStop(String stop){
+    private  boolean isValidStop(String stop){
         return true;
     } //TO DO:
 
-    private static String getBusStop(String stopADJ){
+    private String getBusStop(String stopADJ){
         Scanner sc = new Scanner(System.in);
         while(true){
             System.out.print("Input the "+stopADJ+" stop you wish to use : ");
@@ -65,7 +64,7 @@ public class UI {
         }
     }
 
-    private static String getBusStop(){
+    private  String getBusStop(){
 
         while(true){
             System.out.print("Input the stop you wish to use : ");
@@ -77,25 +76,62 @@ public class UI {
         }
     }
 
-    private static void printStops(){
+    private  void printStops(){
         System.out.println("\nPrintStops\n");
     } // TO DO
 
-    private static void printSPActions(){
+    private  void printSPActions(){
         System.out.print("""
                                 
                 Possible Actions:
                  1. List Bus Stops
                  2. Bus Stop
-                 3. Finish Looking For The Shortest Path
+                 3. Go Back
                 Please enter the number of the action you wish to take :\s""");
     }
 
-    private static void shortestPath(){
+    private  void shortestPath(){
         try {
             boolean exit = false;
             while (!exit) {
                 printSPActions();
+                String input = sc.nextLine();
+                if(input .equalsIgnoreCase("1")){
+                    printStops();
+                } else if (input .equalsIgnoreCase("2")){
+                    String stop1 = getBusStop("first");
+                    String stop2 = getBusStop("second");
+
+                    bc.getShortestPath(stop1,stop2);
+                } else if(input .equalsIgnoreCase("3")){
+                    exit = true;
+                    System.out.println("\n...Closing Shortest Path Search...\n");
+                } else {
+                    System.out.println("\nInvalid input please input a single digit between 1 and 4.\n");
+                }
+
+            }
+        } catch (Exception e){
+            System.err.println(e + "Invalid Input System error");
+        }
+
+    }
+
+    private  void printBSActions(){
+        System.out.print("""
+                                
+                Possible Actions:
+                 1. Full Name Search
+                 2. Prefix Search
+                 3. Go Back
+                Please enter the number of the action you wish to take :\s""");
+    }
+
+    private  void busSearch(){
+        try {
+            boolean exit = false;
+            while (!exit) {
+                printBSActions();
                 String input = sc.nextLine();
                 if(input .equalsIgnoreCase("1")){
                     printStops();
@@ -115,14 +151,9 @@ public class UI {
         } catch (Exception e){
             System.err.println(e + "Invalid Input System error");
         }
-
     }
 
-    private static void busSearch(){
-
-    }
-
-    private static void arrivalSearch(){
+    private  void arrivalSearch(){
 
     }
 
