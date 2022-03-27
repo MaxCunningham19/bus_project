@@ -76,6 +76,11 @@ public class UI {
         }
     }
 
+    private String getInput(){
+            System.out.print("Input the search term : ");
+            return sc.nextLine();
+    }
+
     private  void printStops(){
         System.out.println("\nPrintStops\n");
     } // TO DO
@@ -107,7 +112,7 @@ public class UI {
                     exit = true;
                     System.out.println("\n...Closing Shortest Path Search...\n");
                 } else {
-                    System.out.println("\nInvalid input please input a single digit between 1 and 4.\n");
+                    System.out.println("\nInvalid input please input a single digit between 1 and 3.\n");
                 }
 
             }
@@ -134,17 +139,16 @@ public class UI {
                 printBSActions();
                 String input = sc.nextLine();
                 if(input .equalsIgnoreCase("1")){
-                    printStops();
+                    String stop1 = getInput();
+                    bc.getFNStop(stop1);
                 } else if (input .equalsIgnoreCase("2")){
-                    String stop1 = getBusStop("first");
-                    String stop2 = getBusStop("second");
-                    Backend search = new Backend();
-                    search.getShortestPath(stop1,stop2);
+                    String stop1 = getInput();
+                    bc.getPrefixStop(stop1);
                 } else if(input .equalsIgnoreCase("3")){
                     exit = true;
-                    System.out.println("\n...Closing Shortest Path Search...\n");
+                    System.out.println("\n...Closing Bus Stop Search...\n");
                 } else {
-                    System.out.println("\nInvalid input please input a single digit between 1 and 4.\n");
+                    System.out.println("\nInvalid input please input a single digit between 1 and 3.\n");
                 }
 
             }

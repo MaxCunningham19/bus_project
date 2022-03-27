@@ -1,18 +1,22 @@
 import java.util.HashMap;
 
 public class Backend {
-    HashMap<String, BusStop> busMap;
-    Trie trie;
+    DiGraph<Integer> graph;
+    TST tst;
 
     public void getShortestPath(String stop1, String stop2){
 
     }
 
-    public void getBusStop(String stop){
+    public void getFNStop(String stop){
 
     }
 
-    public void getArrivalTimes(int hours, int minutes){
+    public void getPrefixStop(String prefix){
+
+    }
+
+    public void getArrivalTimes(int hours, int minutes, int seconds){
 
     }
 }
