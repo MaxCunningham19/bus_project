@@ -78,6 +78,53 @@ public class DiGraph<V> {
         return distFromV;
     }
 
+    public double dijkstra(V V1, V V2, ArrayList<V> arr_list) {
+        try {
+            HashMap<V, Double> distFromV = new HashMap<V, Double>();
+            HashMap<V, V> edgeTo = new HashMap<>();
+            HashSet<V> visited = new HashSet<>();
+            distFromV.put(V1, null);
+            edgeTo.put(V1, null);
+            V curNode = V1;
+            for (int k = 0; k < getV() && curNode != null; k++) {
+                visited.add(curNode);
+                ArrayList<V> list = getEdges(curNode);
+                for (V vert:list) {
+                    if (isEdge(curNode, (V) vert)) {
+                        if (distFromV.get((V) vert) == null) {
+                            distFromV.put((V) vert, distFromV.get(curNode) + getDist(curNode, (V) vert));
+                            edgeTo.put((V) vert, curNode);
+                        } else {
+                            if (distFromV.get(curNode) + getDist(curNode, (V) vert) < distFromV.get(vert)) {
+                                distFromV.put((V) vert, distFromV.get(curNode) + getDist(curNode, (V) vert));
+                                edgeTo.put((V) vert, curNode);
+                            }
+                        }
+                        if (curNode == V2) {
+                            double dist = distFromV.get(curNode);
+                            while (curNode != null) {
+                                arr_list.add(curNode);
+                                curNode = edgeTo.get(curNode);
+                            }
+                            ArrayList<V> tmp = new ArrayList<>();
+                            for(int i=arr_list.size()-1;i>=0;i--){
+                                tmp.add(arr_list.get(i));
+                            }
+                            arr_list = tmp;
+                            return dist;
+                        }
+                    }
+                }
+                curNode = nextSmallest(distFromV, visited);
+            }
+            return -1;
+        } catch (Exception e){
+            System.out.println(e);
+            return -1;
+        }
+
+    }
+
     public V nextSmallest(HashMap<V,Double> dist, HashSet<V> visited){
         V smallest = null;
         boolean visit = false;

@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Queue;
+
 public class TST {
     private int n;
     private TSTnode root;
@@ -6,7 +9,7 @@ public class TST {
         private char c;
         private TSTnode left,mid,right;
         private boolean isWord;
-        String stopInfo;
+        StopInfo stopInfo;
     }
 
     public int size(){
@@ -21,18 +24,21 @@ public class TST {
         return get(word) != null;
     }
 
-//    public String[] wordsContaining(String prefix){
-//        if(prefix == null) return null;
-//
-//
-//    }
+    public ArrayList<String> wordsContaining(String prefix){
+        if(prefix == null) return null;
+        TSTnode x = get(prefix);
+        ArrayList<String> list = new ArrayList<>();
+        return null;
+    }
 
-    public String get(String word){
+    public String[] wordsContaining(TSTnode x, String prefix, ArrayList<String> list){
+        return null;
+    }
+
+    public TSTnode get(String word){
         if (word == null) return null;
         if (word.length() == 0) return null;
-        TSTnode x = get(root, word, 0);
-        if (x == null) return null;
-        return x.stopInfo;
+        return get(root, word, 0);
     }
 
     public TSTnode get(TSTnode x, String word, int d){
@@ -59,7 +65,7 @@ public class TST {
         if      (c < x.c)               x.left  = put(x.left,  word, info, d);
         else if (c > x.c)               x.right = put(x.right, word, info,  d);
         else if (d < word.length() - 1) x.mid   = put(x.mid,   word, info,  d+1);
-        else                            x.isWord = true; x.stopInfo = info;
+        else                            x.isWord = true; x.stopInfo = new StopInfo(info);
         return x;
     }
 
