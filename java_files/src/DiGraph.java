@@ -78,12 +78,12 @@ public class DiGraph<V> {
         return distFromV;
     }
 
-    public double dijkstra(V V1, V V2, ArrayList<V> arr_list) {
+    public String dijkstra(V V1, V V2, ArrayList<V> arr_list) {
         try {
             HashMap<V, Double> distFromV = new HashMap<V, Double>();
             HashMap<V, V> edgeTo = new HashMap<>();
             HashSet<V> visited = new HashSet<>();
-            distFromV.put(V1, null);
+            distFromV.put(V1, 0.0);
             edgeTo.put(V1, null);
             V curNode = V1;
             for (int k = 0; k < getV() && curNode != null; k++) {
@@ -100,27 +100,27 @@ public class DiGraph<V> {
                                 edgeTo.put((V) vert, curNode);
                             }
                         }
-                        if (curNode == V2) {
-                            double dist = distFromV.get(curNode);
-                            while (curNode != null) {
-                                arr_list.add(curNode);
-                                curNode = edgeTo.get(curNode);
-                            }
-                            ArrayList<V> tmp = new ArrayList<>();
-                            for(int i=arr_list.size()-1;i>=0;i--){
-                                tmp.add(arr_list.get(i));
-                            }
-                            arr_list = tmp;
-                            return dist;
-                        }
                     }
                 }
                 curNode = nextSmallest(distFromV, visited);
+                if (curNode == V2) {
+                    double dist = distFromV.get(curNode);
+                    while (curNode != null) {
+                        arr_list.add(curNode);
+                        curNode = edgeTo.get(curNode);
+                    }
+                    String ans = "Distance: "+dist+ " Route: ";
+                    for(int i=arr_list.size()-1;i>0;i--){
+                        ans = ans + arr_list.get(i)+" -> ";
+                    }
+                    ans = ans + arr_list.get(0);
+                    return ans;
+                }
             }
-            return -1;
+            return "Distance: Location Unreachable";
         } catch (Exception e){
             System.out.println(e);
-            return -1;
+            return "There Was an error place not found";
         }
 
     }
@@ -128,7 +128,7 @@ public class DiGraph<V> {
     public V nextSmallest(HashMap<V,Double> dist, HashSet<V> visited){
         V smallest = null;
         boolean visit = false;
-        for(Object vert : dist.values()){
+        for(V vert : dist.keySet()){
             if(!visited.contains(vert) && dist.get(vert)!=null){
                 if(!visit){
                     smallest = (V)vert;

@@ -1,8 +1,9 @@
 import java.util.HashMap;
 
 public class Backend {
-    DiGraph<Integer> graph;
+    DiGraph<Integer> costGraph;
     TST tst;
+
 
     public void getShortestPath(String stop1, String stop2){
 

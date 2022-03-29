@@ -9,7 +9,12 @@ public class TST {
         private char c;
         private TSTnode left,mid,right;
         private boolean isWord;
-        StopInfo stopInfo;
+        private StopInfo stopInfo;
+
+        TSTnode(){
+            isWord = false;
+            stopInfo = null;
+        }
     }
 
     public int size(){
@@ -24,15 +29,35 @@ public class TST {
         return get(word) != null;
     }
 
-    public ArrayList<String> wordsContaining(String prefix){
-        if(prefix == null) return null;
-        TSTnode x = get(prefix);
-        ArrayList<String> list = new ArrayList<>();
-        return null;
+    public ArrayList<StopInfo> keysWithPrefix(String prefix) {
+        if (prefix == null) {
+            throw new IllegalArgumentException("calls keysWithPrefix() with null argument");
+        }
+        ArrayList<StopInfo> list = new ArrayList<>();
+        TSTnode x = get(root, prefix, 0);
+        if (x == null) return null;
+        if (x.isWord) list.add(x.stopInfo);
+        collect(x.mid, new StringBuilder(prefix), list);
+        return list;
     }
 
-    public String[] wordsContaining(TSTnode x, String prefix, ArrayList<String> list){
-        return null;
+    // all keys in subtrie rooted at x with given prefix
+    private void collect(TSTnode x, StringBuilder prefix, ArrayList<StopInfo> list) {
+        if (x == null) return;
+        collect(x.left,  prefix, list);
+        if (x.isWord) list.add(x.stopInfo);
+        collect(x.mid,   prefix.append(x.c), list);
+        prefix.deleteCharAt(prefix.length() - 1);
+        collect(x.right, prefix, list);
+    }
+
+    public String getInfo(String word){
+        TSTnode x = get(word);
+        if(x==null) return "Stop Not Found";
+        if(x.isWord) {
+            return x.stopInfo.print();
+        }
+        return "Stop Not Found";
     }
 
     public TSTnode get(String word){
@@ -52,7 +77,7 @@ public class TST {
     }
 
     public void put(String word, String info){
-        if(word == null) return;
+        if(word == null ) return;
         root = put(root, word, info, 0);
     }
 
