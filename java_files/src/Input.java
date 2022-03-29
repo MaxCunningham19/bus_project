@@ -116,7 +116,48 @@ public class Input {
         }
     }
 
-    public void makeTST(){}
+    public void makeTST(TST tst){
+        try {
+            // set up the file reader for the transfers time
+            File file = new File(stops);
+
+            BufferedReader br
+                    = new BufferedReader(new FileReader(file));
+            // read in the column labels
+            br.readLine();
+            // initialise the string and cost values
+            String st;
+            double cost;
+            while ((st = br.readLine()) != null){
+                String[] arr = st.split(",");
+                String[] loc_arr = arr[2].split(" ");
+                String stopName = arr[2];
+                String stopInfo = st;
+                if(loc_arr[2].equalsIgnoreCase("WB")||loc_arr[2].equalsIgnoreCase("EB")
+                        ||loc_arr[2].equalsIgnoreCase("NB")||loc_arr[2].equalsIgnoreCase("SB")){
+                    stopName = "";
+                    for(int i=1;i<loc_arr.length;i++){
+                        stopName = stopName + loc_arr[i] + " ";
+                    }
+                    stopName = stopName + loc_arr[0];
+                    arr[2] = stopName;
+
+                    stopInfo = "";
+                    for(int i=0;i<arr.length;i++){
+                        if(i!=2) {
+                            stopInfo = stopInfo + arr[i] + ",";
+                        } else {
+                            stopInfo = stopInfo + st + ",";
+                        }
+                    }
+                }
+                tst.put(stopName,stopInfo);
+            }
+
+        } catch (Exception e){
+            System.err.println(e);
+        }
+    }
 
     public boolean isValidTime(String time){
         String[] times = time.split(":");

@@ -90,7 +90,10 @@ public class TST {
         if      (c < x.c)               x.left  = put(x.left,  word, info, d);
         else if (c > x.c)               x.right = put(x.right, word, info,  d);
         else if (d < word.length() - 1) x.mid   = put(x.mid,   word, info,  d+1);
-        else                            x.isWord = true; x.stopInfo = new StopInfo(info);
+        else {
+            x.isWord = true;
+            x.stopInfo = new StopInfo(info);
+        }
         return x;
     }
 
