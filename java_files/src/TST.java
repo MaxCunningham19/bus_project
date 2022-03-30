@@ -29,6 +29,15 @@ public class TST {
         return get(word) != null;
     }
 
+    public String getPrefix(String prefix){
+        ArrayList<StopInfo> list = keysWithPrefix(prefix);
+        String ans = "";
+        for(int i=0;i< list.size();i++){
+            ans = ans + list.get(i).print() + "\n";
+        }
+        return ans;
+    }
+
     public ArrayList<StopInfo> keysWithPrefix(String prefix) {
         if (prefix == null) {
             throw new IllegalArgumentException("calls keysWithPrefix() with null argument");

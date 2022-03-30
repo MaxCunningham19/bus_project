@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.ArrayList;
 
 public class Input {
     String stops,stop_times, transfers;
@@ -11,38 +12,6 @@ public class Input {
         this.transfers = transfers;
     }
 
-    public void getGraph(DiGraph<Integer> graph){
-        try {
-            File file = new File(stop_times);
-
-            BufferedReader br
-                    = new BufferedReader(new FileReader(file));
-
-
-            br.readLine();
-            String st;
-            int lastStop=-1;
-            int nextStop;
-            String lastTime = "";
-            String tripId="";
-            while ((st = br.readLine()) != null){
-
-                String[] arr = st.split(",");
-                nextStop = Integer.parseInt(arr[3]);
-                if(lastStop!=-1 && tripId.equalsIgnoreCase(arr[0])) {
-                    graph.addEdge(lastStop, nextStop, getTime(lastTime, arr[1]));
-                }
-                lastStop = nextStop;
-                tripId = arr[0];
-
-            }
-
-
-
-        } catch (Exception e){
-            System.err.println(e);
-        }
-    }
 
     /*
     * this method fills the graph with edges from the two input files transfers and stop_times
@@ -52,7 +21,7 @@ public class Input {
     *return:
     *   null
     * */
-    public void makeCostGraph(DiGraph<Integer> graph){
+    public void makeGraph(DiGraph<Integer> graph, ArrayList<TimeData> list){
         try {
             // set up the file reader for the transfers time
             File file = new File(transfers);
@@ -104,6 +73,7 @@ public class Input {
                 // if the stops are part of the same trip and is at a valid time then add the edge to the graph with cost 1
                 if(tripId.equalsIgnoreCase(arr[0]) && isValidTime(arr[1])) {
                     graph.addEdge(lastStop, curStop, 1.0);
+                    insert(list, arr[1], st);
                 }
                 // set the last stop to the current stop and set the tripID to the current one
                 lastStop = curStop;
@@ -114,6 +84,41 @@ public class Input {
         } catch (Exception e){
             System.err.println(e);
         }
+    }
+
+    public void insert(ArrayList<TimeData> list, String time, String info){
+        if(list.isEmpty()){
+            list.add(new TimeData(time, info));
+            return;
+        }
+        TimeData x = new TimeData(time, info);
+        list.add(binarySearch(list,0,list.size()-1,x),x);
+    }
+
+    int binarySearch(ArrayList<TimeData> arr, int l, int r, TimeData x)
+    {
+        while (l <= r) {
+            int m = l + (r - l) / 2;
+
+            // Check if x is present at mid
+            if (arr.get(m).isEqual(x))
+                return m;
+
+            if((m==0 || arr.get(m-1).isLess(x)) && arr.get(m).isGreater(x)) {
+                return m;
+            }
+            // If x greater, ignore left half
+            if (arr.get(m).isLess(x)) {
+                l = m + 1;
+            }// If x is smaller, ignore right half
+            else {
+                r = m - 1;
+            }
+        }
+
+        // if we reach here, then element was
+        // not present
+        return -1;
     }
 
     public void makeTST(TST tst){

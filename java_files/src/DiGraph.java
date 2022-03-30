@@ -78,7 +78,7 @@ public class DiGraph<V> {
         return distFromV;
     }
 
-    public String dijkstra(V V1, V V2, ArrayList<V> arr_list) {
+    public String dijkstra(V V1, V V2) {
         try {
             HashMap<V, Double> distFromV = new HashMap<V, Double>();
             HashMap<V, V> edgeTo = new HashMap<>();
@@ -104,6 +104,7 @@ public class DiGraph<V> {
                 }
                 curNode = nextSmallest(distFromV, visited);
                 if (curNode == V2) {
+                    ArrayList<V> arr_list =  new ArrayList<>();
                     double dist = distFromV.get(curNode);
                     while (curNode != null) {
                         arr_list.add(curNode);

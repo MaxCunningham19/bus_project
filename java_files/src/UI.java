@@ -4,8 +4,13 @@ import java.util.Scanner;
 @SuppressWarnings("ThrowablePrintedToSystemOut")
 public class UI {
 
-    public  Scanner sc = new Scanner(System.in);
-    public  Backend bc = new Backend();
+    public  Scanner sc;
+    public  Backend bc;
+
+    UI(){
+        sc = sc = new Scanner(System.in);
+        bc = new Backend("stop.txt","stop_times.txt","transfers.txt");
+    }
 
     public  void welcome(){
         System.out.println("\nWelcome to Bus Information Manager\n");
@@ -57,8 +62,13 @@ public class UI {
         while(true){
             System.out.print("Input the "+stopADJ+" stop you wish to use : ");
             String input = sc.nextLine();
-            if(isValidStop(input)){
-                return input;
+            try {
+                int in = Integer.parseInt(input);
+                if (isValidStop(input)) {
+                    return input;
+                }
+            } catch(Exception e){
+                System.out.println("\n..Invalid Stop..\n..Please Enter an Integer..");
             }
             System.out.println("\n..Invalid Stop..");
         }
@@ -89,9 +99,8 @@ public class UI {
         System.out.print("""
                                 
                 Possible Actions:
-                 1. List Bus Stops
-                 2. Bus Stop
-                 3. Go Back
+                 1. Find Bus Stop
+                 2. Go Back
                 Please enter the number of the action you wish to take :\s""");
     }
 
@@ -101,18 +110,16 @@ public class UI {
             while (!exit) {
                 printSPActions();
                 String input = sc.nextLine();
-                if(input .equalsIgnoreCase("1")){
-                    printStops();
-                } else if (input .equalsIgnoreCase("2")){
+                if (input .equalsIgnoreCase("1")){
                     String stop1 = getBusStop("first");
                     String stop2 = getBusStop("second");
 
-                    bc.getShortestPath(stop1,stop2);
-                } else if(input .equalsIgnoreCase("3")){
+                    bc.getShortestPath(Integer.parseInt(stop1),Integer.parseInt(stop2));
+                } else if(input .equalsIgnoreCase("2")){
                     exit = true;
                     System.out.println("\n...Closing Shortest Path Search...\n");
                 } else {
-                    System.out.println("\nInvalid input please input a single digit between 1 and 3.\n");
+                    System.out.println("\nInvalid input please input a single digit either 1 or 2.\n");
                 }
 
             }
@@ -157,8 +164,39 @@ public class UI {
         }
     }
 
-    private  void arrivalSearch(){
 
+    private void printArrivActions(){
+        System.out.print("""
+                                
+                Possible Actions:
+                 1. Find Trips With Arrival Times
+                 2. Go Back
+                Please enter the number of the action you wish to take :\s""");
+    }
+    private  void arrivalSearch(){
+        try {
+            boolean exit = false;
+            while (!exit) {
+                printArrivActions();
+                String input = sc.nextLine();
+                if(input .equalsIgnoreCase("1")){
+                    String stop1 = getInput();
+                    int hour = Integer.parseInt(getInput());
+                    //bc.getArrivalTimes(hour,min,sec);
+                } else if (input .equalsIgnoreCase("2")){
+                    String stop1 = getInput();
+                    bc.getPrefixStop(stop1);
+                } else if(input .equalsIgnoreCase("3")){
+                    exit = true;
+                    System.out.println("\n...Closing Bus Stop Search...\n");
+                } else {
+                    System.out.println("\nInvalid input please input a single digit between 1 and 3.\n");
+                }
+
+            }
+        } catch (Exception e){
+            System.err.println(e + "Invalid Input System error");
+        }
     }
 
 
