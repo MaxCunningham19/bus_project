@@ -32,8 +32,8 @@ public class TST {
     public String getPrefix(String prefix){
         ArrayList<StopInfo> list = keysWithPrefix(prefix);
         String ans = "";
-        for(int i=0;i< list.size();i++){
-            ans = ans + list.get(i).print() + "\n";
+        for (StopInfo stopInfo : list) {
+            ans = ans + stopInfo.print() + "\n";
         }
         return ans;
     }

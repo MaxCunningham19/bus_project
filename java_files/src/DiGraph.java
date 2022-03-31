@@ -15,6 +15,7 @@ public class DiGraph<V> {
     }
 
     public ArrayList<V> getEdges(V v){
+
         HashMap<V,Double> map = getEdgesMap(v);
         return new ArrayList<>(map.keySet());
     }
@@ -53,39 +54,28 @@ public class DiGraph<V> {
         return numV;
     }
 
-
-    public HashMap<V,Double> dijkstra(V V1, DiGraph graph ) {
-        HashMap<V,Double> distFromV = new HashMap<V,Double>();
-        HashMap<V,V> edgeTo = new HashMap<>();
-        HashSet<V> visited = new HashSet<>();
-        distFromV.put(V1, null);
-        edgeTo.put(V1,null);
-        V curNode = V1;
-        for (int k = 0; k < graph.getV() && curNode !=null; k++) {
-            visited.add(curNode);
-            ArrayList<V> list = graph.getEdges(curNode);
-            for (Object vert : list) {
-                if (graph.isEdge(curNode, vert)) {
-                    if (distFromV.get((V)vert) == null) {
-                        distFromV.put((V)vert, distFromV.get(curNode) + graph.getDist(curNode, vert));
-                    } else {
-                        distFromV.put((V)vert, Math.min(distFromV.get(vert), distFromV.get(curNode) + graph.getDist(curNode, vert)));
-                    }
-                }
-            }
-            curNode = nextSmallest(distFromV, visited);
-        }
-        return distFromV;
-    }
-
     public String dijkstra(V V1, V V2) {
         try {
-            HashMap<V, Double> distFromV = new HashMap<V, Double>();
+            if(!edg.containsKey(V1) || !edg.containsKey(V2)){
+                String ans = "\nGraph does not contain stop ";
+                if(!edg.containsKey(V1) && !edg.containsKey(V2)){
+                    ans = ans +V1+" or "+V2+".";
+                } else if(!edg.containsKey(V1)){
+                    ans = ans + V1+".";
+                } else{
+                    ans = ans + V2+".";
+                }
+                return ans;
+            }
+
+
+            HashMap<V, Double> distFromV = new HashMap<>();
             HashMap<V, V> edgeTo = new HashMap<>();
             HashSet<V> visited = new HashSet<>();
             distFromV.put(V1, 0.0);
             edgeTo.put(V1, null);
             V curNode = V1;
+
             for (int k = 0; k < getV() && curNode != null; k++) {
                 visited.add(curNode);
                 ArrayList<V> list = getEdges(curNode);
@@ -103,7 +93,7 @@ public class DiGraph<V> {
                     }
                 }
                 curNode = nextSmallest(distFromV, visited);
-                if (curNode == V2) {
+                if (curNode.equals(V2)) {
                     ArrayList<V> arr_list =  new ArrayList<>();
                     double dist = distFromV.get(curNode);
                     while (curNode != null) {
@@ -118,12 +108,41 @@ public class DiGraph<V> {
                     return ans;
                 }
             }
-            return "Distance: Location Unreachable";
+            return "\nDistance: Location Unreachable";
         } catch (Exception e){
             System.out.println(e);
-            return "There Was an error place not found";
+            return "\nThere Was an Error Place Not Found";
         }
 
+    }
+
+    public void printReachableStops(V V1){
+        HashMap<V, Double> distFromV = new HashMap<>();
+        HashMap<V, V> edgeTo = new HashMap<>();
+        HashSet<V> visited = new HashSet<>();
+        distFromV.put(V1, 0.0);
+        edgeTo.put(V1, null);
+        V curNode = V1;
+
+        while ( curNode != null) {
+            visited.add(curNode);
+            System.out.println(curNode);
+            ArrayList<V> list = getEdges(curNode);
+            for (V vert:list) {
+                if (isEdge(curNode, (V) vert)) {
+                    if (distFromV.get((V) vert) == null) {
+                        distFromV.put((V) vert, distFromV.get(curNode) + getDist(curNode, (V) vert));
+                        edgeTo.put((V) vert, curNode);
+                    } else {
+                        if (distFromV.get(curNode) + getDist(curNode, (V) vert) < distFromV.get(vert)) {
+                            distFromV.put((V) vert, distFromV.get(curNode) + getDist(curNode, (V) vert));
+                            edgeTo.put((V) vert, curNode);
+                        }
+                    }
+                }
+            }
+            curNode = nextSmallest(distFromV, visited);
+        }
     }
 
     public V nextSmallest(HashMap<V,Double> dist, HashSet<V> visited){
@@ -142,6 +161,7 @@ public class DiGraph<V> {
         }
         return smallest;
     }
+
 
 
 }

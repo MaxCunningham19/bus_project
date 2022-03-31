@@ -9,13 +9,21 @@ public class UI {
 
     UI(){
         sc = sc = new Scanner(System.in);
-        bc = new Backend("stop.txt","stop_times.txt","transfers.txt");
+        bc = new Backend("stops.txt","stop_times.txt","transfers.txt");
     }
 
+    /*
+    * @brief this method prints the Welcome Message
+    *
+    */
     public  void welcome(){
         System.out.println("\nWelcome to Bus Information Manager\n");
     }
 
+    /*
+     * @brief this method prints the  main menu
+     *
+     */
     public  void printMainActions(){
         System.out.print("""
                 Possible Actions:
@@ -26,8 +34,13 @@ public class UI {
                 Please enter the number of the action you wish to take :\s""");
     }
 
+    /*
+     * @brief this method allows the user to move between the main tasks
+     *
+     */
     public  void getActions(){
         try {
+            welcome();
             boolean exit = false;
             while (!exit) {
                 printMainActions();
@@ -53,27 +66,43 @@ public class UI {
 
     }
 
+    /*
+     * @brief this method checks if its a valid stop
+     *
+     * @param stop this takes in a stop name and checks if it is a correct stop
+     */
     private  boolean isValidStop(String stop){
         return true;
     } //TO DO:
 
+    /*
+     * @brief this method gets the user to input a bus stop
+     *
+     * @param stopADJ this takes and adjective to enhance the message
+     *
+     * @return String this returns the users input / bus they are searching for
+     */
     private String getBusStop(String stopADJ){
         Scanner sc = new Scanner(System.in);
         while(true){
             System.out.print("Input the "+stopADJ+" stop you wish to use : ");
             String input = sc.nextLine();
             try {
-                int in = Integer.parseInt(input);
+                int parseInt = Integer.parseInt(input);
                 if (isValidStop(input)) {
                     return input;
                 }
             } catch(Exception e){
                 System.out.println("\n..Invalid Stop..\n..Please Enter an Integer..");
             }
-            System.out.println("\n..Invalid Stop..");
         }
     }
 
+    /*
+     * @brief this makes the user input a bus stop
+     *
+     * @return String this returns the users input / bus they are searching for
+     */
     private  String getBusStop(){
 
         while(true){
@@ -86,15 +115,20 @@ public class UI {
         }
     }
 
+    /*
+     * @brief this method gets the user to input a value or string
+     *
+     * @return String this returns the users input
+     */
     private String getInput(){
             System.out.print("Input the search term : ");
             return sc.nextLine();
     }
 
-    private  void printStops(){
-        System.out.println("\nPrintStops\n");
-    } // TO DO
-
+    /*
+    *  @ brief this prints all the shortest path actions
+    *
+    */
     private  void printSPActions(){
         System.out.print("""
                                 
@@ -104,6 +138,11 @@ public class UI {
                 Please enter the number of the action you wish to take :\s""");
     }
 
+    /*
+     *  @ brief this allows the user to search for shortest path between two bus stops
+     *  and to return to the main menu
+     *
+     */
     private  void shortestPath(){
         try {
             boolean exit = false;
@@ -129,6 +168,10 @@ public class UI {
 
     }
 
+    /*
+     *  @ brief this prints all the actions the user has in respect to the searching for bus stop
+     *
+     */
     private  void printBSActions(){
         System.out.print("""
                                 
@@ -139,6 +182,11 @@ public class UI {
                 Please enter the number of the action you wish to take :\s""");
     }
 
+    /*
+     *  @ brief this allows the user to search for bus stops between two bus stops
+     *  and to return to the main menu
+     *
+     */
     private  void busSearch(){
         try {
             boolean exit = false;
@@ -164,7 +212,10 @@ public class UI {
         }
     }
 
-
+    /*
+     *  @ brief this prints all the actions of the arrival task
+     *
+     */
     private void printArrivActions(){
         System.out.print("""
                                 
@@ -173,32 +224,71 @@ public class UI {
                  2. Go Back
                 Please enter the number of the action you wish to take :\s""");
     }
+
+    /*
+     *  @ brief this allows the user to search for trips with a certain arrival time
+     *  and to return to the main menu
+     *
+     */
     private  void arrivalSearch(){
-        try {
             boolean exit = false;
             while (!exit) {
                 printArrivActions();
                 String input = sc.nextLine();
                 if(input .equalsIgnoreCase("1")){
-                    String stop1 = getInput();
-                    int hour = Integer.parseInt(getInput());
-                    //bc.getArrivalTimes(hour,min,sec);
-                } else if (input .equalsIgnoreCase("2")){
-                    String stop1 = getInput();
-                    bc.getPrefixStop(stop1);
-                } else if(input .equalsIgnoreCase("3")){
+                    String time = getTime();
+                    String[] arr = time.split(":");
+                    try {
+                        bc.getArrivalTimes(Integer.parseInt(arr[0]),Integer.parseInt(arr[1]),Integer.parseInt(arr[2]));
+                    } catch (Exception e){
+                        System.out.println("..Invalid time Try again..");
+                    }
+                } else if(input .equalsIgnoreCase("2")){
                     exit = true;
                     System.out.println("\n...Closing Bus Stop Search...\n");
                 } else {
-                    System.out.println("\nInvalid input please input a single digit between 1 and 3.\n");
+                    System.out.println("\nInvalid input please input a single digit either 1 or 2.\n");
                 }
-
             }
-        } catch (Exception e){
-            System.err.println(e + "Invalid Input System error");
+    }
+
+    private String getTime(){
+        Scanner sc = new Scanner(System.in);
+        while(true){
+            System.out.print("Input the time you wish to search for in the form \"hour:minute:second\" :  ");
+            String input = sc.nextLine();
+            try {
+                String[] arr = input.split(":");
+                int hour = Integer.parseInt(arr[0]);
+                int min = Integer.parseInt(arr[1]);
+                int sec = Integer.parseInt(arr[2]);
+
+                if(isValidTime(hour,min,sec)) {
+                    return ""+hour+":"+min+":"+sec;
+                }
+                System.out.println("\n..Invalid Time..\n..Please Enter a Time between 00:00:00 and 23:59:59..");
+            } catch(Exception e){
+                System.out.println("\n..Invalid Time..\n..Please Enter a Time between 00:00:00 and 23:59:59..");
+            }
         }
     }
 
-
+    /*
+     * @brief
+     * this checks if a time is valid i.e 00:00:00 < time < 24:00:00 and that the rest of the values are correct
+     * i.e min cannot be 78 or -1
+     *
+     * @param:
+     *   hour: the hour
+     *   min : the minute of the time
+     *   sec : the second of the time
+     * @return:
+     *   boolean : this lets you know if it is a valid time
+     * */
+    public boolean isValidTime(int hour, int min, int sec){
+        if(hour > 23 || hour <0) return false;
+        if(min > 59|| min < 0) return false;
+        return sec <= 59 && sec>=0;
+    }
 
 }

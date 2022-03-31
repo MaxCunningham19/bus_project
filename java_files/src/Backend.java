@@ -3,67 +3,64 @@ import java.util.HashMap;
 
 public class Backend {
     DiGraph<Integer> graph;
+    boolean hasGraph, hasTST, hasTimes;
     TST tst;
-    ArrayList<TimeData> list;
+    HashMap<String,ArrayList<String>> times;
+    Input input;
 
     Backend(String stops, String stop_time,String transfers){
         graph = new DiGraph<>();
         tst = new TST();
-        list = new ArrayList<>();
-        Input input = new Input(stops,stop_time,transfers);
-        input.makeGraph(graph,list);
-        input.makeTST(tst);
+        times = new HashMap<>();
+        input = new Input(stops,stop_time,transfers);
+        hasGraph = false;
+        hasTimes = false;
+        hasTST = false;
     }
 
 
     public void getShortestPath(int stop1, int stop2){
+        if(!hasGraph){
+            input.makeGraph(graph);
+            hasGraph = true;
+        }
         System.out.println(graph.dijkstra(stop1,stop2));
     }
 
     public void getFNStop(String stop){
+        if(!hasTST){
+            input.makeTST(tst);
+        }
         System.out.println(tst.getInfo(stop));
     }
 
     public void getPrefixStop(String prefix){
+        if(!hasTST){
+            input.makeTST(tst);
+        }
         System.out.println(tst.getPrefix(prefix));
     }
 
     public void getArrivalTimes(int hours, int minutes, int seconds){
-        TimeData x = new TimeData(hours,minutes,seconds,null);
-        int index = binarySearch(list,0,list.size()-1,x);
-        int i = index;
-        while(list.get(i).equals(x)){
-            i--;
-            if(i <0){
-                i = 0;
-                break;
+        if(!hasTimes){
+            input.makeHashMap(times);
+        }
+        String time = hours +":"+minutes+":"+seconds;
+        System.out.println("\n---------------");
+        if(times.containsKey(time)){
+            ArrayList<String> arrayList = times.get(time);
+            for (String s : arrayList) {
+                printInfo(s);
             }
+        } else {
+            System.out.println(" No Trips Match The Time "+time);
         }
-        while(list.get(i).equals(x)){
-            i++;
-            System.out.println(list.get(i).getInfo());
-        }
+        System.out.print("---------------\n");
     }
 
-    int binarySearch(ArrayList<TimeData> arr, int l, int r, TimeData x)
-    {
-        while (l <= r) {
-            int m = l + (r - l) / 2;
-
-            // Check if x is present at mid
-            if (arr.get(m).isEqual(x))
-                return m;
-            // If x greater, ignore left half
-            if (arr.get(m).isLess(x)) {
-                l = m + 1;
-            }// If x is smaller, ignore right half
-            else {
-                r = m - 1;
-            }
-        }
-
-        // if we reach here, then element was
-        // not present
-        return -1;
+    public void printInfo(String st){
+        String[] arr = st.split(",");
+        System.out.println("Trip ID: "+arr[0]+ ", Arrival Time: "+arr[1].trim() + ", stop ID: "+arr[3] +", Stop Sequence: "+arr[4]+", Shape Dist Travelled: "+arr[arr.length-1]);
     }
+
 }
