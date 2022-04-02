@@ -23,6 +23,13 @@ public class StopInfo {
         }
     }
 
+    /*
+     * @brief: This method returns the Info provided to the Object in an aesthetic and understandable way
+     *
+     * @param: NULL
+     *
+     * @return: String containing the information or if there is no Information a string saying such
+     */
     public String print(){
         if(name == null){
             return "STOP INFO NOT FOUND";

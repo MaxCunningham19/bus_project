@@ -93,7 +93,7 @@ public class UI {
                     return input;
                 }
             } catch(Exception e){
-                System.out.println("\n..Invalid Stop..\n..Please Enter an Integer..");
+                System.out.println("\n..Invalid Stop..\n..Please Enter an Integer..\n");
             }
         }
     }
@@ -158,7 +158,7 @@ public class UI {
                     exit = true;
                     System.out.println("\n...Closing Shortest Path Search...\n");
                 } else {
-                    System.out.println("\nInvalid input please input a single digit either 1 or 2.\n");
+                    System.out.println("\nInvalid input please input a single digit either 1 or 2.");
                 }
 
             }
@@ -203,7 +203,7 @@ public class UI {
                     exit = true;
                     System.out.println("\n...Closing Bus Stop Search...\n");
                 } else {
-                    System.out.println("\nInvalid input please input a single digit between 1 and 3.\n");
+                    System.out.println("\nInvalid input please input a single digit between 1 and 3.");
                 }
 
             }
@@ -247,7 +247,7 @@ public class UI {
                     exit = true;
                     System.out.println("\n...Closing Bus Stop Search...\n");
                 } else {
-                    System.out.println("\nInvalid input please input a single digit either 1 or 2.\n");
+                    System.out.println("\nInvalid input please input a single digit either 1 or 2.");
                 }
             }
     }

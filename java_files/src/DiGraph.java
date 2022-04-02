@@ -10,16 +10,37 @@ public class DiGraph<V> {
         this.edg = new HashMap<>();
     }
 
+    /*
+     * @brief:
+     *
+     * @param:
+     *
+     * @return:
+     */
     public HashMap<V,Double> getEdgesMap(V v){
         return edg.get(v);
     }
 
+    /*
+     * @brief:
+     *
+     * @param:
+     *
+     * @return:
+     */
     public ArrayList<V> getEdges(V v){
 
         HashMap<V,Double> map = getEdgesMap(v);
         return new ArrayList<>(map.keySet());
     }
 
+    /*
+     * @brief:
+     *
+     * @param:
+     *
+     * @return:
+     */
     public void addEdge(V V1, V V2, Double dist) {
         numE++;
         if (!edg.containsKey(V1)) {
@@ -34,11 +55,25 @@ public class DiGraph<V> {
         edg.get(V1).put(V2, dist);
     }
 
+    /*
+     * @brief:
+     *
+     * @param:
+     *
+     * @return:
+     */
     public void addVertex(V v){
         numV++;
         edg.put(v, new HashMap<>());
     }
 
+    /*
+     * @brief:
+     *
+     * @param:
+     *
+     * @return:
+     */
     public double getDist(V V1, V V2) {
         if(!edg.get(V1).containsKey(V2)){
             return -1.0;
@@ -46,14 +81,35 @@ public class DiGraph<V> {
         return edg.get(V1).get(V2);
     }
 
+    /*
+     * @brief:
+     *
+     * @param:
+     *
+     * @return:
+     */
     public boolean isEdge(V V1, V V2) {
         return edg.get(V1).containsKey(V2);
     }
 
+    /*
+     * @brief:
+     *
+     * @param:
+     *
+     * @return:
+     */
     public int getV() {
         return numV;
     }
 
+    /*
+     * @brief:
+     *
+     * @param:
+     *
+     * @return:
+     */
     public String dijkstra(V V1, V V2) {
         try {
             if(!edg.containsKey(V1) || !edg.containsKey(V2)){
@@ -100,9 +156,9 @@ public class DiGraph<V> {
                         arr_list.add(curNode);
                         curNode = edgeTo.get(curNode);
                     }
-                    String ans = "Distance: "+dist+ " Route: ";
+                    String ans = "Distance: "+dist+ "\n Route: ";
                     for(int i=arr_list.size()-1;i>0;i--){
-                        ans = ans + arr_list.get(i)+" -> ";
+                        ans = ans + arr_list.get(i)+(i%10==0?"\n":"")+" -> ";
                     }
                     ans = ans + arr_list.get(0);
                     return ans;
@@ -116,6 +172,13 @@ public class DiGraph<V> {
 
     }
 
+    /*
+     * @brief:
+     *
+     * @param:
+     *
+     * @return:
+     */
     public void printReachableStops(V V1){
         HashMap<V, Double> distFromV = new HashMap<>();
         HashMap<V, V> edgeTo = new HashMap<>();
@@ -145,6 +208,13 @@ public class DiGraph<V> {
         }
     }
 
+    /*
+     * @brief:
+     *
+     * @param:
+     *
+     * @return:
+     */
     public V nextSmallest(HashMap<V,Double> dist, HashSet<V> visited){
         V smallest = null;
         boolean visit = false;
