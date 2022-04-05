@@ -107,7 +107,7 @@ public class Input {
      * @return:
      *   null
      * */
-    public void makeHashMap(HashMap<String, ArrayList<String>> map){
+    public void makeHashMap(HashMap<String, ArrayList<String[]>> map){
         try {
             // set up the file reader for the stop_times file
             File file = new File(stop_times);
@@ -130,13 +130,34 @@ public class Input {
                     if (!map.containsKey(time)) {
                         map.put(time, new ArrayList<>());
                     }
-                    map.get(time).add(st);
+                    add(map.get(time),st);
                 }
             }
 
         } catch (Exception e){
             System.out.println(" Error when reading from stop_times.txt");
         }
+    }
+
+    private void add(ArrayList<String[]> list, String st){
+        if(list.isEmpty()){
+            list.add(st.split(","));
+            return;
+        }
+        String[] arr = st.split(",");
+        int ID = Integer.parseInt(arr[0]);
+        for(int i=0;i<list.size();i++){
+            String[] tmp = list.get(i);
+            int tmpID = Integer.parseInt(tmp[0]);
+            if(tmpID>ID){
+                list.add(i,arr);
+                return;
+            }
+        }
+        list.add(arr);
+        return;
+
+
     }
 
     /*

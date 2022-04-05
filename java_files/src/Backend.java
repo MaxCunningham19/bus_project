@@ -5,7 +5,7 @@ public class Backend {
     DiGraph<Integer> graph;
     boolean hasGraph, hasTST, hasTimes;
     TST tst;
-    HashMap<String,ArrayList<String>> times;
+    HashMap<String,ArrayList<String[]>> times;
     Input input;
 
     /*
@@ -111,8 +111,8 @@ public class Backend {
         String time = hours +":"+minutes+":"+seconds;
         System.out.println("\n---------------");
         if(times.containsKey(time)){
-            ArrayList<String> arrayList = times.get(time);
-            for (String s : arrayList) {
+            ArrayList<String[]> arrayList = times.get(time);
+            for (String[] s : arrayList) {
                 printInfo(s);
             }
         } else {
@@ -130,8 +130,7 @@ public class Backend {
      *
      * @return: NULL
      */
-    public void printInfo(String st){
-        String[] arr = st.split(",");
+    public void printInfo(String[] arr){
         System.out.println("Trip ID: "+arr[0]+ ", Arrival Time: "+arr[1].trim() + ", stop ID: "+arr[3] +", Stop Sequence: "+arr[4]+", Shape Dist Travelled: "+arr[arr.length-1]);
     }
 
