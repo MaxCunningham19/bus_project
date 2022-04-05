@@ -37,10 +37,17 @@ public class Backend {
      */
     public void getShortestPath(int stop1, int stop2){
         if(!hasGraph){
+            System.out.println("..Loading Graph...");
             input.makeGraph(graph);
+            System.out.println("..Loading Complete..");
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e){
+
+            }
             hasGraph = true;
         }
-        System.out.println(graph.dijkstra(stop1,stop2));
+        System.out.println("\n"+graph.dijkstra(stop1,stop2));
     }
 
     /*
@@ -55,10 +62,19 @@ public class Backend {
      */
     public void getAllStops(int stop){
         if(!hasGraph){
+            System.out.println("..Loading Graph...");
             input.makeGraph(graph);
+            System.out.println("..Loading Complete..\n");
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e){
+
+            }
             hasGraph = true;
         }
+        System.out.println("\n--------------------");
         graph.printReachableStops(stop);
+        System.out.println("--------------------");
     }
 
     /*
@@ -72,7 +88,20 @@ public class Backend {
      */
     public void getFNStop(String stop){
         if(!hasTST){
+            System.out.println("..Loading Data...");
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e){
+
+            }
             input.makeTST(tst);
+            System.out.println("..Loading Complete...");
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e){
+
+            }
+            hasTST = true;
         }
         System.out.println("\n"+tst.getInfo(stop.toUpperCase()));
     }
@@ -87,7 +116,20 @@ public class Backend {
      */
     public void getPrefixStop(String prefix){
         if(!hasTST){
+            System.out.println("..Loading Data...");
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e){
+
+            }
             input.makeTST(tst);
+            System.out.println("..Loading Complete...");
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e){
+
+            }
+            hasTST = true;
         }
         System.out.println(tst.getPrefix(prefix.toUpperCase()));
     }
@@ -106,7 +148,15 @@ public class Backend {
      */
     public void getArrivalTimes(int hours, int minutes, int seconds){
         if(!hasTimes){
+            System.out.println("\n...Loading Necessary Info..");
             input.makeHashMap(times);
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e){
+
+            }
+            System.out.println("...Info Loaded..");
+            hasTimes = true;
         }
         String time = hours +":"+minutes+":"+seconds;
         System.out.println("\n---------------");

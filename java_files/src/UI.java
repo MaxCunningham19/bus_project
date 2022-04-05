@@ -19,7 +19,13 @@ public class UI {
     * @brief this method prints the Welcome Message
     *
     */
-    public  void welcome(){
+    public  void welcome() throws InterruptedException {
+        System.out.print(".");
+        Thread.sleep(1000);
+        System.out.print(".");
+        Thread.sleep(1000);
+        System.out.print(".");
+        Thread.sleep(1000);
         System.out.println("\nWelcome to Bus Information Manager\n");
     }
 
@@ -134,7 +140,7 @@ public class UI {
         System.out.print("""
                                 
                 Possible Actions:
-                 1. Find Bus Stop
+                 1. Find Path Between Two Stop
                  2. Find all Reachable Stops
                  3. Go Back
                 Please enter the number of the action you wish to take :\s""");
@@ -152,12 +158,12 @@ public class UI {
                 printSPActions();
                 String input = sc.nextLine();
                 if (input .equalsIgnoreCase("1")){
-                    String stop1 = getBusStop("first");
-                    String stop2 = getBusStop("second");
+                    String stop1 = getBusStop("starting");
+                    String stop2 = getBusStop("destination");
 
                     bc.getShortestPath(Integer.parseInt(stop1),Integer.parseInt(stop2));
                 } else if(input .equalsIgnoreCase("2")){
-                    String stop = getBusStop("starting");
+                    String stop = getBusStop("initial");
                     bc.getAllStops(Integer.parseInt(stop));
                 } else if(input .equalsIgnoreCase("3")){
                     exit = true;
