@@ -1,12 +1,13 @@
-import java.util.ArrayList;
-import java.util.Queue;
-
 public class StopInfo {
     String name,desc;
     String id,code;
     String latitude,longitude;
     String zone_id,url,location_type;
 
+    /*
+    * This class is an easy way to store the stop information from stops.txt and
+    * makes the information more visually appealing
+    */
     StopInfo(String info){
         name = null;
         if(info!=null) {

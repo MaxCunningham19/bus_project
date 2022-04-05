@@ -44,6 +44,24 @@ public class Backend {
     }
 
     /*
+     * @brief: This method prints all stops that can be reached from the initial stop
+     *         and when called for the first time it initialises the graph data structure
+     *
+     * @param:
+     *       stop: the initial stop where the search begins from
+
+     *
+     * @return: NULL
+     */
+    public void getAllStops(int stop){
+        if(!hasGraph){
+            input.makeGraph(graph);
+            hasGraph = true;
+        }
+        graph.printReachableStops(stop);
+    }
+
+    /*
      * @brief: This wrapper method is used when the user wants to search the TST for a certain stop
      *
      * @param:

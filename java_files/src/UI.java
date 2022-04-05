@@ -1,4 +1,3 @@
-import java.io.*;
 import java.util.Scanner;
 
 @SuppressWarnings("ThrowablePrintedToSystemOut")
@@ -7,6 +6,10 @@ public class UI {
     public  Scanner sc;
     public  Backend bc;
 
+    /*
+    * This class acts as the buffer between the user and the backend of the project where the actual data
+    *  is being queried and searched it does this through text prompts and having an instance of the backend class
+    */
     UI(){
         sc = sc = new Scanner(System.in);
         bc = new Backend("stops.txt","stop_times.txt","transfers.txt");
@@ -66,14 +69,14 @@ public class UI {
 
     }
 
-    /*
-     * @brief this method checks if its a valid stop
-     *
-     * @param stop this takes in a stop name and checks if it is a correct stop
-     */
-    private  boolean isValidStop(String stop){
-        return true;
-    } //TO DO:
+//    /*
+//     * @brief this method checks if its a valid stop
+//     *
+//     * @param stop this takes in a stop name and checks if it is a correct stop
+//     */
+//    private  boolean isValidStop(String stop){
+//        return true;
+//    } //TO DO:
 
     /*
      * @brief this method gets the user to input a bus stop
@@ -89,31 +92,29 @@ public class UI {
             String input = sc.nextLine();
             try {
                 int parseInt = Integer.parseInt(input);
-                if (isValidStop(input)) {
-                    return input;
-                }
+                return input;
             } catch(Exception e){
                 System.out.println("\n..Invalid Stop..\n..Please Enter an Integer..\n");
             }
         }
     }
 
-    /*
-     * @brief this makes the user input a bus stop
-     *
-     * @return String this returns the users input / bus they are searching for
-     */
-    private  String getBusStop(){
-
-        while(true){
-            System.out.print("Input the stop you wish to use : ");
-            String input = sc.nextLine();
-            if(isValidStop(input)){
-                return input;
-            }
-            System.out.println("\n..Invalid Stop..");
-        }
-    }
+//    /*
+//     * @brief this makes the user input a bus stop
+//     *
+//     * @return String this returns the users input / bus they are searching for
+//     */
+//    private  String getBusStop(){
+//
+//        while(true){
+//            System.out.print("Input the stop you wish to use : ");
+//            String input = sc.nextLine();
+//            if(isValidStop(input)){
+//                return input;
+//            }
+//            System.out.println("\n..Invalid Stop..");
+//        }
+//    }
 
     /*
      * @brief this method gets the user to input a value or string
@@ -134,7 +135,8 @@ public class UI {
                                 
                 Possible Actions:
                  1. Find Bus Stop
-                 2. Go Back
+                 2. Find all Reachable Stops
+                 3. Go Back
                 Please enter the number of the action you wish to take :\s""");
     }
 
@@ -155,10 +157,13 @@ public class UI {
 
                     bc.getShortestPath(Integer.parseInt(stop1),Integer.parseInt(stop2));
                 } else if(input .equalsIgnoreCase("2")){
+                    String stop = getBusStop("starting");
+                    bc.getAllStops(Integer.parseInt(stop));
+                } else if(input .equalsIgnoreCase("3")){
                     exit = true;
                     System.out.println("\n...Closing Shortest Path Search...\n");
                 } else {
-                    System.out.println("\nInvalid input please input a single digit either 1 or 2.");
+                    System.out.println("\nInvalid input please input a single digit from 1 to 3.");
                 }
 
             }
@@ -245,13 +250,18 @@ public class UI {
                     }
                 } else if(input .equalsIgnoreCase("2")){
                     exit = true;
-                    System.out.println("\n...Closing Bus Stop Search...\n");
+                    System.out.println("\n...Closing Arrival Time Search...\n");
                 } else {
                     System.out.println("\nInvalid input please input a single digit either 1 or 2.");
                 }
             }
     }
 
+    /*
+     *  @ brief: this gets the users time input
+     *
+     *  @return: the String containing the time the user inputted
+     */
     private String getTime(){
         Scanner sc = new Scanner(System.in);
         while(true){
@@ -266,9 +276,9 @@ public class UI {
                 if(isValidTime(hour,min,sec)) {
                     return ""+hour+":"+min+":"+sec;
                 }
-                System.out.println("\n..Invalid Time..\n..Please Enter a Time between 00:00:00 and 23:59:59..");
+                System.out.println("\n..Invalid Time..\n..Please Enter a Time between 00:00:00 and 23:59:59..\n");
             } catch(Exception e){
-                System.out.println("\n..Invalid Time..\n..Please Enter a Time between 00:00:00 and 23:59:59..");
+                System.out.println("\n..Invalid Time..\n..Please Enter a Time between 00:00:00 and 23:59:59..\n");
             }
         }
     }

@@ -1,9 +1,27 @@
 import java.util.ArrayList;
-import java.util.Queue;
 
 public class TST {
     private int n;
     private TSTnode root;
+
+    /*
+    * This class is the data structure that i decided to use for storing the stop names
+    * it implements a ternary search tree which stores string is the following format
+    *
+    *                  C
+    *                  |
+    *                  A ---- O
+    *                  |      |
+    *                  T  A - K
+    *                     |   |
+    *                     T   E
+    *
+    *  I took inspiration for this class and some of its methods from
+    *  "https://algs4.cs.princeton.edu/52trie/TST.java.html" / Algorithms, 4th Edition
+    */
+    TST(){
+
+    }
 
     class TSTnode {
         private char c;
@@ -47,7 +65,7 @@ public class TST {
     }
 
     /*
-     * @brief: this function returns the list containging all StopsInfo that match the string prefix
+     * @brief: this function returns the list containing all StopsInfo that match the string prefix
      *
      * @param:
      *       prefix: this is the sub-string of the stops the user is searching for
